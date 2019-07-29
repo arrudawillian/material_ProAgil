@@ -1,24 +1,25 @@
-bin
-obj
+# See http://help.github.com/ignore-files/ for more about ignoring files.
 
-.vscode
-.vs
-
+# .NET CORE Project
 appsettings.Development.json
 appsettings.json
-
-/node_modules
-node_modules
-
-# See http://help.github.com/ignore-files/ for more about ignoring files.
+bin
+obj
 
 # compiled output
 /dist
 /tmp
 /out-tsc
+# Only exists if Bazel was run
+/bazel-out
 
 # dependencies
 /node_modules
+node_modules
+
+# profiling files
+chrome-profiler-events.json
+speed-measure-plugin.json
 
 # IDEs and editors
 /.idea
@@ -30,11 +31,13 @@ node_modules
 *.sublime-workspace
 
 # IDE - VSCode
+.vs
 .vscode/*
 !.vscode/settings.json
 !.vscode/tasks.json
 !.vscode/launch.json
 !.vscode/extensions.json
+.history/*
 
 # misc
 /.sass-cache

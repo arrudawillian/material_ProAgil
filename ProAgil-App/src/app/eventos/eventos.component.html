@@ -1,14 +1,15 @@
-<form class="form-inline">
+<div class="form-inline">
   <div class="form-group mb-2">
-    <input type="text" class="form-control mr-2" placeholder="buscar">
+    Filtro: <input type="text" class="form-control mr-2" placeholder="buscar" [(ngModel)]="filtroLista">
     <button class="btn btn-outline-success">Buscar</button>
   </div>
-</form>
+</div>
+<h3>Filtro: {{filtroLista}}</h3>
 <table class="table table-striped">
-  <thead class="thead-dark">
+  <thead class="thead-light">
     <tr>
+      <th><button class="btn btn-outline-primary" (click)="alternarImg()">Mostrar Img</button> </th>
       <th>#</th>
-      <th>Img</th>
       <th>Tema</th>
       <th>Local</th>
       <th>Data</th>
@@ -19,11 +20,9 @@
   </thead>
   <tbody *ngIf="eventos && eventos.length">
     <tr *ngFor="let evento of eventos">
+      <td><img *ngIf="mostrarImg" src="http://localhost:5000/img/{{evento.imagemUrl}}" [style.width.px]="imgLargura"
+          [style.margin.px]="imgMargem"></td>
       <td>{{evento.eventoId}}</td>
-      <td><img src="http://localhost:5000/img/{{evento.imagemUrl}}"
-        [style.width.px]="imgLargura"
-        [style.margin.px]="imgMargem"
-        ></td>
       <td>{{evento.tema}}</td>
       <td>{{evento.local}}</td>
       <td>{{evento.dataEvento}}</td>

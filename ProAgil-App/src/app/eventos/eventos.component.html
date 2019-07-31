@@ -1,7 +1,6 @@
 <div class="form-inline">
   <div class="form-group mb-2">
-    Filtro: <input type="text" class="form-control mr-2" placeholder="buscar" [(ngModel)]="filtroLista">
-    <button class="btn btn-outline-success">Buscar</button>
+    <label class="mr-2">Filtro:</label> <input type="text" class="form-control mr-2" placeholder="buscar" [(ngModel)]="filtroLista">
   </div>
 </div>
 <h3>Filtro: {{filtroLista}}</h3>
@@ -18,8 +17,9 @@
       <th>Opções</th>
     </tr>
   </thead>
+  
   <tbody *ngIf="eventos && eventos.length">
-    <tr *ngFor="let evento of eventos">
+    <tr *ngFor="let evento of eventosFiltrados">
       <td><img *ngIf="mostrarImg" src="http://localhost:5000/img/{{evento.imagemUrl}}" [style.width.px]="imgLargura"
           [style.margin.px]="imgMargem"></td>
       <td>{{evento.eventoId}}</td>
@@ -27,7 +27,7 @@
       <td>{{evento.local}}</td>
       <td>{{evento.dataEvento}}</td>
       <td>{{evento.qtdPessoas}}</td>
-      <td>{{evento.lote}}</td>
+      <td>{{evento.lote | uppercase}}</td>
       <td></td>
     </tr>
   </tbody>

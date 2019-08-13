@@ -15,7 +15,7 @@ namespace ProAgil.Repository.Migrations
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     Local = table.Column<string>(nullable: true),
-                    DataEvento = table.Column<DateTime>(nullable: false),
+                    DataEvento = table.Column<DateTime>(nullable: true),
                     Tema = table.Column<string>(nullable: true),
                     QtdPessoas = table.Column<int>(nullable: false),
                     ImagemURL = table.Column<string>(nullable: true),
@@ -53,7 +53,7 @@ namespace ProAgil.Repository.Migrations
                     Nome = table.Column<string>(nullable: true),
                     Preco = table.Column<decimal>(nullable: false),
                     DataInicio = table.Column<DateTime>(nullable: true),
-                    DataFim = table.Column<DateTime>(nullable: false),
+                    DataFim = table.Column<DateTime>(nullable: true),
                     Quantidade = table.Column<int>(nullable: false),
                     EventoId = table.Column<int>(nullable: false)
                 },

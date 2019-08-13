@@ -3,6 +3,8 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
+using ProAgil.Repository;
 
 namespace ProAgil.Repository.Migrations
 {
@@ -23,7 +25,7 @@ namespace ProAgil.Repository.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<DateTime>("DataEvento");
+                    b.Property<DateTime?>("DataEvento");
 
                     b.Property<string>("Email");
 
@@ -48,7 +50,7 @@ namespace ProAgil.Repository.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<DateTime>("DataFim");
+                    b.Property<DateTime?>("DataFim");
 
                     b.Property<DateTime?>("DataInicio");
 
@@ -126,7 +128,7 @@ namespace ProAgil.Repository.Migrations
 
             modelBuilder.Entity("ProAgil.Domain.Lote", b =>
                 {
-                    b.HasOne("ProAgil.Domain.Evento", "Evento")
+                    b.HasOne("ProAgil.Domain.Evento")
                         .WithMany("Lotes")
                         .HasForeignKey("EventoId")
                         .OnDelete(DeleteBehavior.Cascade);
@@ -135,24 +137,24 @@ namespace ProAgil.Repository.Migrations
             modelBuilder.Entity("ProAgil.Domain.PalestranteEvento", b =>
                 {
                     b.HasOne("ProAgil.Domain.Evento", "Evento")
-                        .WithMany("PalestranteEventos")
+                        .WithMany("PalestrantesEventos")
                         .HasForeignKey("EventoId")
                         .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("ProAgil.Domain.Palestrante", "Palestrante")
-                        .WithMany("PalestranteEventos")
+                        .WithMany("PalestrantesEventos")
                         .HasForeignKey("PalestranteId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("ProAgil.Domain.RedeSocial", b =>
                 {
-                    b.HasOne("ProAgil.Domain.Evento", "Evento")
-                        .WithMany("RedeSociais")
+                    b.HasOne("ProAgil.Domain.Evento")
+                        .WithMany("RedesSociais")
                         .HasForeignKey("EventoId");
 
-                    b.HasOne("ProAgil.Domain.Palestrante", "Palestrante")
-                        .WithMany("RedeSociais")
+                    b.HasOne("ProAgil.Domain.Palestrante")
+                        .WithMany("RedesSociais")
                         .HasForeignKey("PalestranteId");
                 });
 #pragma warning restore 612, 618

@@ -18,7 +18,7 @@ namespace ProAgil.API.Controllers
             this.repo = repo;
         }
 
-        [HttpGet("{nome}")]
+        [HttpGet("getByNome{nome}")]
         public async Task<IActionResult> Get(string nome)
         {
             try

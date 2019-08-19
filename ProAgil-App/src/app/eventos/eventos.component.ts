@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { EventoService } from '../_services/evento.service';
 
 @Component({
   selector: 'app-eventos',
@@ -8,6 +9,7 @@ import { HttpClient } from '@angular/common/http';
 })
 export class EventosComponent implements OnInit {
 
+  // tslint:disable-next-line: variable-name
   _filtroLista: string;
   get filtroLista(): string {
     return this._filtroLista;
@@ -23,7 +25,7 @@ export class EventosComponent implements OnInit {
   imgMargem = 2;
   mostrarImg: boolean;
 
-  constructor(private http: HttpClient) { }
+  constructor(private eventoService: EventoService) { }
 
   ngOnInit() {
     this.getEventos();
@@ -41,7 +43,7 @@ export class EventosComponent implements OnInit {
   }
 
   getEventos() {
-    this.http.get('http://localhost:5000/api/values').subscribe(response => {
+    return this.eventoService.getEvento().subscribe(response => {
       this.eventos = response;
       console.log(this.eventos);
     }, error => {

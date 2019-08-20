@@ -2,8 +2,10 @@ import { Component, OnInit, TemplateRef } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { EventoService } from '../_services/evento.service';
 import { Evento } from '../_models/Evento';
-import { BsModalRef, BsModalService } from 'ngx-bootstrap';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { BsModalService } from 'ngx-bootstrap';
+import { FormGroup, Validators, FormBuilder } from '@angular/forms';
+import { defineLocale, BsLocaleService, ptBrLocale } from 'ngx-bootstrap';
+defineLocale('pt-br', ptBrLocale);
 
 @Component({
   selector: 'app-eventos',
@@ -17,13 +19,17 @@ export class EventosComponent implements OnInit {
   imgLargura = 50;
   imgMargem = 2;
   mostrarImg: boolean;
-  modalRef: BsModalRef;
   registerForm: FormGroup;
 
-  // tslint:disable-next-line: variable-name
   _filtroLista: string;
 
-  constructor(private eventoService: EventoService, private modalService: BsModalService) { }
+  constructor(
+    private eventoService: EventoService
+    , private fb: FormBuilder
+    , private localeService: BsLocaleService
+  ) {
+    this.localeService.use('pt-br')
+  }
 
   get filtroLista(): string {
     return this._filtroLista;
@@ -50,14 +56,14 @@ export class EventosComponent implements OnInit {
   }
 
   validation() {
-    this.registerForm = new FormGroup({
-      tema: new FormControl('', [Validators.required, Validators.minLength(4), Validators.maxLength(50)]),
-      local: new FormControl('', Validators.required),
-      dataEvento: new FormControl('', Validators.required),
-      imagemURL: new FormControl('', Validators.required),
-      qtdPessoas: new FormControl('', [Validators.required, Validators.max(120000)]),
-      telefone: new FormControl('', Validators.required),
-      email: new FormControl('', [Validators.required, Validators.email])
+    this.registerForm = this.fb.group({
+      tema: ['', [Validators.required, Validators.minLength(4), Validators.maxLength(50)]],
+      local: ['', Validators.required],
+      dataEvento: ['', Validators.required],
+      imagemURL: ['', Validators.required],
+      qtdPessoas: ['', [Validators.required, Validators.max(120000)]],
+      telefone: ['', Validators.required],
+      email: ['', [Validators.required, Validators.email]]
     });
   }
 
@@ -66,7 +72,6 @@ export class EventosComponent implements OnInit {
   }
 
   getEventos() {
-    // tslint:disable-next-line: variable-name
     return this.eventoService.getAllEvento().subscribe((_eventos: Evento[]) => {
       this.eventos = _eventos;
       this.eventosFiltrados = this.eventos;
@@ -77,8 +82,8 @@ export class EventosComponent implements OnInit {
     );
   }
 
-  openModal(template: TemplateRef<any>) {
-    this.modalRef = this.modalService.show(template);
+  openModal(template: any) {
+    template.show();
   }
 
 }

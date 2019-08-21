@@ -103,8 +103,8 @@ export class EventosComponent implements OnInit {
           console.log("error", error)
         });
       } else {
-        this.evento = Object.assign({id: this.evento.id}, this.registerForm.value);
-        console.log("this.evento",this.evento);
+        this.evento = Object.assign({ id: this.evento.id }, this.registerForm.value);
+        console.log("this.evento", this.evento);
         this.eventoService.putEvento(this.evento).subscribe((novoEvento: Evento) => {
           template.hide();
           this.getEventos();
@@ -125,11 +125,11 @@ export class EventosComponent implements OnInit {
   confirmeDelete(template: any) {
     this.eventoService.deleteEvento(this.evento.id).subscribe(
       () => {
-          template.hide();
-          this.getEventos();
-        }, error => {
-          console.log(error);
-        }
+        template.hide();
+        this.getEventos();
+      }, error => {
+        console.log(error);
+      }
     );
   }
 

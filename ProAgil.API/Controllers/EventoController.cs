@@ -1,6 +1,9 @@
+using System.Collections.Generic;
 using System.Threading.Tasks;
+using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using ProAgil.API.Dtos;
 using ProAgil.Domain;
 using ProAgil.Repository;
 
@@ -12,10 +15,12 @@ namespace ProAgil.API.Controllers
     public class EventoController : ControllerBase
     {
         private readonly IProAgilRepository repo;
+        private readonly IMapper mapper;
 
-        public EventoController(IProAgilRepository repo)
+        public EventoController(IProAgilRepository repo, IMapper mapper)
         {
             this.repo = repo;
+            this.mapper = mapper;
         }
 
         [HttpGet]
@@ -23,12 +28,13 @@ namespace ProAgil.API.Controllers
         {
             try
             {
-                var results = await this.repo.GetAllEventoAsync(true);
+                var eventos = await this.repo.GetAllEventoAsync(true);
+                var results = this.mapper.Map<IEnumerable<EventoDto>>(eventos);
                 return Ok(results);
             }
-            catch (System.Exception)
+            catch (System.Exception ex)
             {
-                return this.StatusCode(StatusCodes.Status500InternalServerError, "Banco de Dados Falhou");
+                return this.StatusCode(StatusCodes.Status500InternalServerError, $"Banco de Dados Falhou {ex.Message}");
             }
         }
 
@@ -37,12 +43,13 @@ namespace ProAgil.API.Controllers
         {
             try
             {
-                var results = await this.repo.GetEventoAsyncById(eventoId, true);
+                var evento = await this.repo.GetEventoAsyncById(eventoId, true);
+                var results = this.mapper.Map<EventoDto>(evento);
                 return Ok(results);
             }
-            catch (System.Exception)
+            catch (System.Exception ex)
             {
-                return this.StatusCode(StatusCodes.Status500InternalServerError, "Banco de Dados Falhou");
+                return this.StatusCode(StatusCodes.Status500InternalServerError, $"Banco de Dados Falhou {ex.Message}");
             }
         }
 
@@ -54,9 +61,9 @@ namespace ProAgil.API.Controllers
                 var results = await this.repo.GetAllEventoAsyncByTema(tema, true);
                 return Ok(results);
             }
-            catch (System.Exception)
+            catch (System.Exception ex)
             {
-                return this.StatusCode(StatusCodes.Status500InternalServerError, "Banco de Dados Falhou");
+                return this.StatusCode(StatusCodes.Status500InternalServerError, $"Banco de Dados Falhou {ex.Message}");
             }
         }
 
@@ -72,9 +79,9 @@ namespace ProAgil.API.Controllers
                     return Created($"/api/evento/{model.Id}", model);
                 }
             }
-            catch (System.Exception)
+            catch (System.Exception ex)
             {
-                return this.StatusCode(StatusCodes.Status500InternalServerError, "Banco de Dados Falhou");
+                return this.StatusCode(StatusCodes.Status500InternalServerError, $"Banco de Dados Falhou {ex.Message}");
             }
 
             return BadRequest();
@@ -95,9 +102,9 @@ namespace ProAgil.API.Controllers
                     return Created($"/api/evento/{model.Id}", model);
                 }
             }
-            catch (System.Exception)
+            catch (System.Exception ex)
             {
-                return this.StatusCode(StatusCodes.Status500InternalServerError, "Banco de Dados Falhou");
+                return this.StatusCode(StatusCodes.Status500InternalServerError, $"Banco de Dados Falhou {ex.Message}");
             }
 
             return BadRequest();
@@ -118,9 +125,9 @@ namespace ProAgil.API.Controllers
                     return Ok();
                 }
             }
-            catch (System.Exception)
+            catch (System.Exception ex)
             {
-                return this.StatusCode(StatusCodes.Status500InternalServerError, "Banco de Dados Falhou");
+                return this.StatusCode(StatusCodes.Status500InternalServerError, $"Banco de Dados Falhou {ex.Message}");
             }
 
             return BadRequest();

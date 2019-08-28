@@ -29,7 +29,7 @@ namespace ProAgil.API.Controllers
             try
             {
                 var eventos = await this.repo.GetAllEventoAsync(true);
-                var results = this.mapper.Map<IEnumerable<EventoDto>>(eventos);
+                var results = this.mapper.Map<EventoDto[]>(eventos);
                 return Ok(results);
             }
             catch (System.Exception ex)
@@ -68,15 +68,17 @@ namespace ProAgil.API.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Post(Evento model)
+        public async Task<IActionResult> Post(EventoDto model)
         {
             try
             {
-                this.repo.Add(model);
+                var evento = mapper.Map<Evento>(model);
+                
+                this.repo.Add(evento);
 
                 if (await this.repo.SaveChangesAsync())
                 {
-                    return Created($"/api/evento/{model.Id}", model);
+                    return Created($"/api/evento/{model.Id}", mapper.Map<Evento>(model));
                 }
             }
             catch (System.Exception ex)
@@ -95,11 +97,13 @@ namespace ProAgil.API.Controllers
                 var evento = await this.repo.GetEventoAsyncById(eventoId, false);
                 if (evento == null) return NotFound();
 
+                mapper.Map(evento, model);
+
                 this.repo.Update(model);
 
                 if (await this.repo.SaveChangesAsync())
                 {
-                    return Created($"/api/evento/{model.Id}", model);
+                    return Created($"/api/evento/{model.Id}", mapper.Map<Evento>(model));
                 }
             }
             catch (System.Exception ex)

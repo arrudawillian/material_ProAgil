@@ -50,7 +50,7 @@ namespace ProAgil.Repository
                     .ThenInclude(_ => _.Palestrante);
             };
 
-            query = query.OrderByDescending(_ => _.DataEvento);
+            query = query.OrderBy(_ => _.Id);
 
             return await query.ToArrayAsync();
         }

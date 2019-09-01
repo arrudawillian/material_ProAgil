@@ -41,7 +41,7 @@ namespace ProAgil.API.Controllers
         }
 
         [HttpPost("upload")]
-        public async Task<IActionResult> Upload()
+        public IActionResult Upload()
         {
             try
             {
@@ -66,7 +66,6 @@ namespace ProAgil.API.Controllers
                 return this.StatusCode(StatusCodes.Status500InternalServerError, $"Banco de Dados Falhou {ex.Message}");
             }
 
-            return BadRequest("Erro ao temtar realizar upload");
         }
 
         [HttpGet("{eventoId}")]

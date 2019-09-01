@@ -103,7 +103,7 @@ export class EventosComponent implements OnInit {
 
   onFileChange(event) {
     //perguntar pq não usa isso?
-    const reader = new FileReader();
+    //const reader = new FileReader();
 
     if (event.target.files && event.target.files.length) {
       this.file = event.target.files;
@@ -142,7 +142,7 @@ export class EventosComponent implements OnInit {
         } else {
           this.evento.imagemURL = this.currentFileName;
         }
-
+        console.log("this.evento",this.evento)
         this.eventoService.putEvento(this.evento).subscribe((novoEvento: Evento) => {
           template.hide();
           this.getEventos();

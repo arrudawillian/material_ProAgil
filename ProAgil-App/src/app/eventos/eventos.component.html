@@ -124,13 +124,12 @@
                 <tr>
                   <td><button class="btn btn-success" (click)="file.click()">Enviar Imagem</button>
                     <input type="file" #file class="form-control"
-                      [ngClass]="{'is-invalid': registerForm.get('imagemURL').errors && registerForm.get('imagemURL').touched}"
+                      
                       (change)="onFileChange($event)" formControlName="imagemURL" placeholder="Insira a imagem"
                       style="display: none">
                   </td>
                 </tr>
               </table>
-              <div class="invalid-feedback">Imagem obrigatório</div>
             </div>
           </div>
           <div class="form-row">

@@ -36,9 +36,9 @@ namespace ProAgil.API.Controllers
         }
 
         [HttpGet("GetUser")]
-        public IActionResult GetUser(UserDto userDto)
+        public IActionResult GetUser()
         {
-            return Ok(userDto);
+            return Ok(new UserDto());
         }
 
         [HttpPost("Login")]

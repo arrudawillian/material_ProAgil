@@ -6,7 +6,7 @@
       <span class="navbar-toggler-icon"></span>
     </button>
 
-    <div *ngIf="loggedIn()" class="collapse navbar-collapse" id="navbarsExampleDefault">
+    <div *ngIf="loginStatus()" class="collapse navbar-collapse" id="navbarsExampleDefault">
       <ul class="navbar-nav mr-auto">
         <li class="nav-item" routerLinkActive="active">
           <a class="nav-link" routerLink="eventos">Eventos</a>
@@ -20,23 +20,23 @@
       </ul>
     </div>
 
-    <ul *ngIf="loggedIn()" class="navbar-nav">
+    <ul *ngIf="loginStatus()" class="navbar-nav">
       <li class="nav-item dropdown" dropdown>
-        <a dropdownToggle class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown"
-          aria-haspopup="true" aria-expanded="false">
-          Willian
+        <a dropdownToggle class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown"
+          aria-haspopup="true" aria-expanded="false" style="cursor: pointer">
+          {{authService.nome}}
         </a>
         <div *dropdownMenu class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-          <a class="dropdown-item" href="#">
+          <a class="dropdown-item">
             Perfil
           </a>
           <div role="separator" class="divider"></div>
-          <a class="dropdown-item" href="#">
+          <a class="dropdown-item" (click)=logout() style="cursor: pointer">
             Sair
           </a>
         </div>
       </li>
     </ul>
-
+<button *ngIf="!loginStatus()" class="btn btn-success" (click)="entrar()">Entrar</button>
   </div>
 </nav>

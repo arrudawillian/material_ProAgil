@@ -19,6 +19,7 @@ export class EventoEditComponent implements OnInit {
   registerForm: FormGroup;
   file: File;
   fileNameToUpdate: string;
+  currentImg: string;
 
   constructor(
     private eventoService: EventoService
@@ -40,16 +41,20 @@ export class EventoEditComponent implements OnInit {
       .subscribe(
         (evento: Evento) => {
           this.evento = Object.assign({}, evento);
-          if (this.evento.imagemURL != null)
+          if (this.evento.imagemURL != null) {
             this.imagemURL = `http://localhost:5000/resources/images/${this.evento.imagemURL}`;
+            this.currentImg = this.evento.imagemURL;
+          }
+          console.log("", this.imagemURL);
           this.evento.imagemURL = '';
           this.registerForm.patchValue(this.evento);
+
           this.evento.lotes.forEach(lote => {
             this.lotes.push(this.criaLote(lote));
           })
 
           this.evento.redesSociais.forEach(redeSocial => {
-            this.redesSociais.push(this.criaLote(redeSocial));
+            this.redesSociais.push(this.criaRedeSocial(redeSocial));
           })
 
         }
@@ -117,15 +122,19 @@ export class EventoEditComponent implements OnInit {
   onFileChange(file: FileList) {
     const reader = new FileReader();
     reader.onload = (event: any) => this.imagemURL = event.target.result;
-    this.file = event.target.files; 
+    this.file = event.target.files;
     reader.readAsDataURL(file[0]);
   }
 
   salvarEvento() {
     this.evento = Object.assign({ id: this.evento.id }, this.registerForm.value);
 
-    this.uploadImagem();
-
+    if (this.registerForm.get('imagemURL').value != '') {
+      this.uploadImagem();
+    }else{
+      this.evento.imagemURL = this.currentImg;
+    }
+    
     this.eventoService.putEvento(this.evento).subscribe(
       () => {
         this.toastr.success('Editado com Sucesso!');
@@ -136,14 +145,12 @@ export class EventoEditComponent implements OnInit {
   }
 
   uploadImagem() {
-    console.log("this.registerForm.get('imagemURL').value", this.registerForm.get('imagemURL').value)
-    if (this.registerForm.get('imagemURL').value != '') {
-      const nomeArquivo = this.evento.imagemURL.split('\\', 3);
-      this.evento.imagemURL = nomeArquivo[2];
-      console.log("this.evento.imagemURL", this.evento.imagemURL)
-      this.eventoService.postUpload(this.file, nomeArquivo[2]).subscribe(() => { });
-    }
+    const nomeArquivo = this.evento.imagemURL.split('\\', 3);
+    this.evento.imagemURL = nomeArquivo[2];
+    console.log("this.evento.imagemURL", this.evento.imagemURL)
+    this.eventoService.postUpload(this.file, nomeArquivo[2]).subscribe(() => { });
   }
+
 
 
 

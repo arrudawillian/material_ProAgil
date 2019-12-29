@@ -2,10 +2,11 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { BsDropdownModule, TooltipModule, ModalModule, BsDatepickerModule } from 'ngx-bootstrap';
+import { BsDropdownModule, TooltipModule, ModalModule, BsDatepickerModule, TabsModule } from 'ngx-bootstrap';
 import { AppRoutingModule } from './app-routing.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastrModule } from 'ngx-toastr';
+import { NgxMaskModule } from "ngx-mask";
 
 import { AppComponent } from './app.component';
 import { NavComponent } from './nav/nav.component';
@@ -20,6 +21,7 @@ import { UserComponent } from './user/user.component';
 import { LoginComponent } from './user/login/login.component';
 import { RegistrationComponent } from './user/registration/registration.component';
 import { AuthInterceptor } from './auth/auth.interceptor';
+import { EventoEditComponent } from './eventos/eventoEdit/eventoEdit.component';
 
 @NgModule({
    declarations: [
@@ -33,7 +35,8 @@ import { AuthInterceptor } from './auth/auth.interceptor';
       TituloComponent,
       UserComponent,
       LoginComponent,
-      RegistrationComponent
+      RegistrationComponent,
+      EventoEditComponent
    ],
    imports: [
       BrowserModule,
@@ -43,10 +46,12 @@ import { AuthInterceptor } from './auth/auth.interceptor';
       BsDropdownModule.forRoot(),
       TooltipModule.forRoot(),
       ModalModule.forRoot(),
+      TabsModule.forRoot(),
       BsDatepickerModule.forRoot(),
       ReactiveFormsModule,
       BrowserAnimationsModule,
-      ToastrModule.forRoot()
+      ToastrModule.forRoot(),
+      NgxMaskModule.forRoot()
    ],
    providers: [
       {

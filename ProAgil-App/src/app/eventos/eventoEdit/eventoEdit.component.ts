@@ -4,6 +4,7 @@ import { FormBuilder, FormGroup, Validators, FormArray } from '@angular/forms';
 import { BsLocaleService } from 'ngx-bootstrap';
 import { ToastrService } from 'ngx-toastr';
 import { Evento } from 'src/app/_models/Evento';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-eventoEdit',
@@ -16,18 +17,41 @@ export class EventoEditComponent implements OnInit {
   evento: Evento = new Evento();
   imagemURL = 'assets/img/imgupload.png';
   registerForm: FormGroup;
-
+  
   constructor(
     private eventoService: EventoService
     , private fb: FormBuilder
     , private localeService: BsLocaleService
     , private toastr: ToastrService
+    , private router: ActivatedRoute
   ) {
     this.localeService.use('pt-br');
   }
 
   ngOnInit() {
     this.validation();
+    this.carregarEvento();
+  }
+  carregarEvento() {
+    const idEvento = +this.router.snapshot.paramMap.get('id');
+    this.eventoService.getEventoById(idEvento)
+      .subscribe(
+        (evento: Evento) => {
+          this.evento = Object.assign({}, evento);
+          this.imagemURL = `http://localhost:5000/resources/images/${this.evento.imagemURL}`;
+          this.evento.imagemURL = '';
+          this.registerForm.patchValue(this.evento);
+
+          this.evento.lotes.forEach(lote => {
+            this.lotes.push(this.criaLote(lote));
+          })
+
+          this.evento.redesSociais.forEach(redeSocial => {
+            this.redesSociais.push(this.criaLote(redeSocial));
+          })
+
+        }
+      );
   }
 
   get lotes(): FormArray {
@@ -40,6 +64,7 @@ export class EventoEditComponent implements OnInit {
 
   validation() {
     this.registerForm = this.fb.group({
+      id: [],
       tema: ['', [Validators.required, Validators.minLength(4), Validators.maxLength(50)]],
       local: ['', Validators.required],
       dataEvento: ['', Validators.required],
@@ -47,34 +72,36 @@ export class EventoEditComponent implements OnInit {
       qtdPessoas: ['', [Validators.required, Validators.max(120000)]],
       telefone: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
-      lotes: this.fb.array([this.criaLote()]),
-      redesSociais: this.fb.array([this.criaRedeSocial()]),
+      lotes: this.fb.array([]),
+      redesSociais: this.fb.array([]),
     });
   }
 
-  private criaRedeSocial(): FormGroup {
+  private criaRedeSocial(redeSocial: any): FormGroup {
     return this.fb.group({
-      nome: ['', Validators.required],
-      url: ['', Validators.required],
+      id: [redeSocial.id],
+      nome: [redeSocial.nome, Validators.required],
+      url: [redeSocial.url, Validators.required],
     });
   }
 
-  private criaLote(): FormGroup {
+  private criaLote(lote: any): FormGroup {
     return this.fb.group({
-      nome: ['', Validators.required],
-      quantidade: ['', Validators.required],
-      preco: ['', Validators.required],
-      dataInicio: ['',],
-      dataFim: ['',]
+      id: [lote.id],
+      nome: [lote.nome, Validators.required],
+      quantidade: [lote.quantidade, Validators.required],
+      preco: [lote.preco, Validators.required],
+      dataInicio: [lote.dataInicio,],
+      dataFim: [lote.dataFim,]
     });
   }
 
   adicionarLote() {
-    this.lotes.push(this.criaLote());
+    this.lotes.push(this.criaLote({ id: 0, nome: '' }));
   }
 
   adicionarRedeSocial() {
-    this.redesSociais.push(this.criaRedeSocial());
+    this.redesSociais.push(this.criaRedeSocial({ id: 0, nome: '' }));
   }
 
   removerRedeSocial(id: number) {
@@ -89,6 +116,10 @@ export class EventoEditComponent implements OnInit {
     const reader = new FileReader();
     reader.onload = (event: any) => this.imagemURL = event.target.result;
     reader.readAsDataURL(file[0]);
+  }
+
+  salvarEvento() {
+    
   }
 
 }

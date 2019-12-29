@@ -37,7 +37,7 @@
             <div class="form-group col-md-4">
               <label>Data e Hora</label>
               <input type="text" class="form-control" [(ngModel)]="evento.dataEvento" bsDatepicker
-                value="{{dataEvento | DateTimeFormatPipe}}" [(ngModel)]="dataEvento"
+                 [(ngModel)]="dataEvento"
                 [bsConfig]="{ dateInputFormat : 'DD/MM/YYYY hh:mm' }" [ngClass]="{'is-invalid': registerForm.get('dataEvento').errors 
             && registerForm.get('dataEvento').touched}" formControlName="dataEvento" placeholder="">
               <div *ngIf="registerForm.get('dataEvento').hasError('required')
@@ -191,14 +191,13 @@
         <div class="card-img-block">
           <img [src]="imagemURL" class="img-fluid" (click)="file.click()" style="cursor: pointer; width: 350px;"
             alt="Card image cap" />
-            {{imagemURL | json}}
         </div>
         <div class="card-body pt-3">
           <h4>{{evento.tema}}</h4>
           <p class="card-text">
             <b>Local:</b> {{evento.local}}
             <br>
-            <b>Data:</b> {{evento.dataEvento | DateTimeFormatPipe}}
+            <b>Data:</b> {{evento.dataEvento}}
           </p>
           <hr>
           <p class="card-text">

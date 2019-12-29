@@ -17,7 +17,9 @@ export class EventoEditComponent implements OnInit {
   evento: Evento = new Evento();
   imagemURL = 'assets/img/imgupload.png';
   registerForm: FormGroup;
-  
+  file: File;
+  fileNameToUpdate: string;
+
   constructor(
     private eventoService: EventoService
     , private fb: FormBuilder
@@ -38,10 +40,10 @@ export class EventoEditComponent implements OnInit {
       .subscribe(
         (evento: Evento) => {
           this.evento = Object.assign({}, evento);
-          this.imagemURL = `http://localhost:5000/resources/images/${this.evento.imagemURL}`;
+          if (this.evento.imagemURL != null)
+            this.imagemURL = `http://localhost:5000/resources/images/${this.evento.imagemURL}`;
           this.evento.imagemURL = '';
           this.registerForm.patchValue(this.evento);
-
           this.evento.lotes.forEach(lote => {
             this.lotes.push(this.criaLote(lote));
           })
@@ -115,11 +117,34 @@ export class EventoEditComponent implements OnInit {
   onFileChange(file: FileList) {
     const reader = new FileReader();
     reader.onload = (event: any) => this.imagemURL = event.target.result;
+    this.file = event.target.files; 
     reader.readAsDataURL(file[0]);
   }
 
   salvarEvento() {
-    
+    this.evento = Object.assign({ id: this.evento.id }, this.registerForm.value);
+
+    this.uploadImagem();
+
+    this.eventoService.putEvento(this.evento).subscribe(
+      () => {
+        this.toastr.success('Editado com Sucesso!');
+      }, error => {
+        this.toastr.error(`Erro ao Editar: ${error}`);
+      }
+    );
   }
+
+  uploadImagem() {
+    console.log("this.registerForm.get('imagemURL').value", this.registerForm.get('imagemURL').value)
+    if (this.registerForm.get('imagemURL').value != '') {
+      const nomeArquivo = this.evento.imagemURL.split('\\', 3);
+      this.evento.imagemURL = nomeArquivo[2];
+      console.log("this.evento.imagemURL", this.evento.imagemURL)
+      this.eventoService.postUpload(this.file, nomeArquivo[2]).subscribe(() => { });
+    }
+  }
+
+
 
 }

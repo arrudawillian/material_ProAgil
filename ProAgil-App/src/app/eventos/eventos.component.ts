@@ -124,7 +124,9 @@ export class EventosComponent implements OnInit {
       if (this.modoSalvar === 'post') {
         this.evento = Object.assign({}, this.registerForm.value);
 
-        this.uploadImagem();
+        if(this.evento.imagemURL){
+          this.uploadImagem();
+        }
 
         this.eventoService.postEvento(this.evento).subscribe((novoEvento: Evento) => {
           template.hide();

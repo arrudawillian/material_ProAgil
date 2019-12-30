@@ -15,7 +15,10 @@ export class NavComponent implements OnInit {
     , public authService: AuthService) { }
 
   ngOnInit() {
-    this.authService.nome = sessionStorage.getItem('nome');
+  }
+
+  getNome() {
+    return sessionStorage.getItem('nome');
   }
 
   loginStatus() {

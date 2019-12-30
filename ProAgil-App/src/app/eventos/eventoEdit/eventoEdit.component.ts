@@ -119,7 +119,7 @@ export class EventoEditComponent implements OnInit {
     this.lotes.removeAt(id);
   }
 
-  onFileChange(file: FileList) {
+  onFileChange(file: FileList, event) {
     const reader = new FileReader();
     reader.onload = (event: any) => this.imagemURL = event.target.result;
     this.file = event.target.files;

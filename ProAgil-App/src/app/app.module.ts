@@ -6,7 +6,8 @@ import { BsDropdownModule, TooltipModule, ModalModule, BsDatepickerModule, TabsM
 import { AppRoutingModule } from './app-routing.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastrModule } from 'ngx-toastr';
-import { NgxMaskModule } from "ngx-mask";
+import { NgxMaskModule } from 'ngx-mask';
+import { NgxCurrencyModule } from 'ngx-currency';
 
 import { AppComponent } from './app.component';
 import { NavComponent } from './nav/nav.component';
@@ -50,6 +51,7 @@ import { EventoEditComponent } from './eventos/eventoEdit/eventoEdit.component';
       BsDatepickerModule.forRoot(),
       ReactiveFormsModule,
       BrowserAnimationsModule,
+      NgxCurrencyModule,
       ToastrModule.forRoot(),
       NgxMaskModule.forRoot()
    ],

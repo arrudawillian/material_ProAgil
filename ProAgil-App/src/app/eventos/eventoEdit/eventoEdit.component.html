@@ -37,8 +37,7 @@
             <div class="form-group col-md-4">
               <label>Data e Hora</label>
               <input type="text" class="form-control" [(ngModel)]="evento.dataEvento" bsDatepicker
-                 [(ngModel)]="dataEvento"
-                [bsConfig]="{ dateInputFormat : 'DD/MM/YYYY hh:mm' }" [ngClass]="{'is-invalid': registerForm.get('dataEvento').errors 
+                [(ngModel)]="dataEvento" [bsConfig]="{ dateInputFormat : 'DD/MM/YYYY hh:mm' }" [ngClass]="{'is-invalid': registerForm.get('dataEvento').errors 
             && registerForm.get('dataEvento').touched}" formControlName="dataEvento" placeholder="">
               <div *ngIf="registerForm.get('dataEvento').hasError('required')
             && registerForm.get('dataEvento').touched" class="invalid-feedback">
@@ -176,7 +175,8 @@
       <div class="row">
         <div class="col-md-12 d-flex justify-content-end">
           <!-- {{registerForm.value | json}} -->
-          <button [disabled]="!registerForm.valid" class="btn btn-success my-2" (click)="salvarEvento()" >Salvar Alterações</button>
+          <button [disabled]="!registerForm.valid" class="btn btn-success my-2" (click)="salvarEvento()">Salvar
+            Alterações</button>
         </div>
       </div>
     </div>
@@ -211,9 +211,10 @@
             <small class="text-muted">{{evento.qtdPessoas}}</small>
           </p>
           <div class="row">
-            <div class="icon-block col-md-8 iconesSociaisYt">
-              <a class="mr-3" target="_blank">
-                <i class="fab fa-youtube"></i>
+            <div class="icon-block col-md-8 iconesSociais">
+              <a href="{{redesSociais.get(l+'.url').value}}"
+                *ngFor="let redeSocial of redesSociais.controls; let l=index" class="mr-3" target="_blank">
+                <i class="{{redesSociais.get(l+'.nome').value}}"></i>
               </a>
             </div>
             <!--div class="col-md-4 d-flex justify-content-center">  

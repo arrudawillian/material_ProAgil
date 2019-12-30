@@ -2,20 +2,8 @@ i {
     font-size: 25px;
 }
 
-.iconesSociaisYt a {
-    color: red;
-}
-
-.iconesSociaisFb a {
-    color:blue;
-}
-
-.iconesSociaisTw a {
-    color: blue;
-}
-
-.iconesSociaisIg a {
-    color:purple;
+.iconesSociais a {
+    color: darkslategrey;
 }
 
 .capitalize {

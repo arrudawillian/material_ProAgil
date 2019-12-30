@@ -17,6 +17,10 @@ export class NavComponent implements OnInit {
   ngOnInit() {
   }
 
+  showMenu(){
+    return this.router.url !== '/user/login';
+  }
+
   getNome() {
     return sessionStorage.getItem('nome');
   }
